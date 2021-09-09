@@ -7,7 +7,7 @@ import {ProjectModel, ProjectEndpoint} from "./Projects"
 import {TaskModel, TaskEndpoint} from "./Tasks"
 import {TaskLogEndpoint} from "./TaskLogs"
 
-// cribbed from the official docs
+// cribbed from the official docs for humanize-duration
 const shortEnglishHumanizer = humanizeDuration.humanizer({
   language: "shortEn",
   languages: {
@@ -98,7 +98,7 @@ function Task({task, taskLogs, createTaskLog, finalizeTaskLog}) {
 
 function CompleteTaskLog({taskLog}) {
 
-	// HACK: this is probably a mistake, and I should use a real parser
+	// HACK: this is probably a mistake and I should use a real parser
 	const startDate = new Date(taskLog.start)
 	const stopDate = new Date(taskLog.stop)
 	const elapsedMillis = stopDate.getTime() - startDate.getTime()
