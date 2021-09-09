@@ -144,7 +144,7 @@ function CRUDForm({selected, model, onChange, onSubmit, errors, pending}){
 				onSubmit={onSubmit}
 			>
 				{
-					model.fields.map(({key, label, iconComponent}) => (
+					model.fields.map(({key, label, iconComponent, writeable}) => (
 						<div key={key} className="field">
 							<label className="label">{label}</label>
 							<div className="control has-icons-left">
@@ -155,6 +155,7 @@ function CRUDForm({selected, model, onChange, onSubmit, errors, pending}){
 									name={key}
 									value={selected[key] || ""}
 									onChange={onChange}
+									disabled={!writeable}
 								/>
 								{iconComponent && (
 									<span className="icon is-small is-left">

@@ -13,17 +13,32 @@ export const TaskLogModel = {
 		{
 			key: "task",
 			label: "Task",
-			iconComponent: <FontAwesomeIcon icon={faTasks}/>
+			iconComponent: <FontAwesomeIcon icon={faTasks}/>,
+			writeable: true,
 		},
 		{
 			key: "logged_by",
 			label: "Logged By",
-			iconComponent: <FontAwesomeIcon icon={faUser}/>
+			iconComponent: <FontAwesomeIcon icon={faUser}/>,
+			writeable: true,
+		},
+		{
+			key: "start",
+			label: "Started At",
+			iconComponent: <FontAwesomeIcon icon={faStopwatch}/>,
+			writeable: true,
+		},
+		{
+			key: "stop",
+			label: "Stopped At",
+			iconComponent: <FontAwesomeIcon icon={faStopwatch}/>,
+			writeable: true,
 		},
 		{
 			key: "duration_minutes",
 			label: "Minutes Logged",
-			iconComponent: <FontAwesomeIcon icon={faStopwatch}/>
+			iconComponent: <FontAwesomeIcon icon={faStopwatch}/>,
+			writeable: false,
 		},
 	]
 }
