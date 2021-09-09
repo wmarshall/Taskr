@@ -19,6 +19,11 @@ class TaskLogViewSet(viewsets.ModelViewSet):
     queryset = TaskLog.objects.all()
     serializer_class = TaskLogSerializer
 
+    def create(self, request, *args, **kwargs):
+        if "logged_by" not in request.data:
+            request.data["logged_by"] = request.user.id
+        return super().create(request, *args, **kwargs)
+
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
