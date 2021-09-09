@@ -36,8 +36,14 @@ export function CRUD({endpoint, model}){
 				onSubmit={(e) => {
 					e.preventDefault();
 
+					const isDelete = e.target.name === "delete"
+
 					const isUpdate = !!selected.id
-					const requestMethod = isUpdate ? "PATCH": "POST"
+					const requestMethod = (
+						isUpdate ? (
+							isDelete ? "DELETE" : "PATCH"
+						) : "POST"
+					)
 
 					if (!pending){
 						setPending(true)
@@ -169,20 +175,23 @@ function CRUDForm({selected, model, onChange, onSubmit, errors, pending}){
 						<button
 							className={`button is-primary ${pending ? "is-loading" : null}`}
 							disabled={pending}
+							name="submit"
 						>
 						{
 							hasSelected ? "Update" : "Create"
 						}
 						</button>
 						{
-							// hasSelected && (
-							// 	<button
-							// 		className={`button is-danger ${pending ? "is-loading" : null}`}
-							// 		disabled={pending}
-							// 	>
-							// 	Delete
-							// 	</button>
-							// )
+							hasSelected && (
+								<button
+									className={`button is-danger ${pending ? "is-loading" : null}`}
+									disabled={pending}
+									name="delete"
+									onClick={onSubmit}
+								>
+								Delete
+								</button>
+							)
 						}
 					</div>
 				</div>

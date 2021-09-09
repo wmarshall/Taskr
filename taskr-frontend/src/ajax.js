@@ -11,7 +11,7 @@ export function request(endpoint, body, method="POST"){
 	const headers = {
 		"X-CSRFToken": Cookies.get('csrftoken'),
 	}
-	if (method !== "GET" && method !== "HEAD"){
+	if (method !== "GET" && method !== "HEAD" && method !== "DELETE"){
 		body = JSON.stringify(body)
 		headers["Content-Type"] = "application/json"
 	} else {
@@ -26,7 +26,9 @@ export function request(endpoint, body, method="POST"){
 		if (!response.ok) {
 	      throw new AJAXError(response, 'Network response was not ok');
 	    }
-		return response.json()
+	    if (response.headers.get("Content-Type") === "application/json"){
+			return response.json()
+	    }
 	})
 	// .catch(err => console.error(err))
 
