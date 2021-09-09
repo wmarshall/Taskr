@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
+from django.utils.timezone import now as timezone_now
 
 from .models import Customer, Project, Task, TaskLog
 from .serializers import (
@@ -22,6 +23,13 @@ class TaskLogViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         request.data["logged_by"] = request.user.id
         return super().create(request, *args, **kwargs)
+
+    @action(detail=True, methods=["POST"])
+    def stop(self, request, pk=None):
+        task_log = self.get_object()
+        task_log.stop = timezone_now()
+        task_log.save()
+        return Response({"status": "task log stopped"})
 
 
 class TaskViewSet(viewsets.ModelViewSet):
