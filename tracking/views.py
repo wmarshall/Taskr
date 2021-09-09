@@ -1,5 +1,9 @@
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework import viewsets, status, permissions
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
 
 from .models import Customer, Project, Task, TaskLog
 from .serializers import (
@@ -35,3 +39,24 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """Provide Read views for users"""
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+
+@api_view(["GET"])
+@permission_classes([permissions.AllowAny])
+@ensure_csrf_cookie
+def bootstrap(request):
+    return Response({"status": "success"}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([permissions.AllowAny])
+def login_view(request):
+    username = request.data['username']
+    password = request.data['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        # HACK: I'd like to use Django's default view here but it doesn't want to return 403s on failure
+        login(request._request, user)
+        return Response({"status": "success"}, status=status.HTTP_200_OK)
+
+    return Response({"status": "forbidden"}, status=status.HTTP_403_FORBIDDEN)
