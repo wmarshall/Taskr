@@ -3,10 +3,7 @@ import {faTag, faBuilding} from '@fortawesome/free-solid-svg-icons'
 
 import {CRUD} from './CRUD'
 
-export function Projects(){
-
-	const endpoint = "/tracking/projects/"
-	const model = {
+export const ProjectModel = {
 		label: "Project",
 		plural: "Projects",
 		iconComponent: <FontAwesomeIcon icon={faTag}/>,
@@ -24,6 +21,11 @@ export function Projects(){
 			}
 		]
 	}
+
+export function Projects(){
+
+	const endpoint = "/tracking/projects/"
+	const model = ProjectModel
 
 	return <CRUD endpoint={endpoint} model={model} />
 }
