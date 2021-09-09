@@ -1,12 +1,20 @@
+from datetime import timedelta
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Customer, Project, Task, TaskLog
 
 
 class TaskLogSerializer(serializers.ModelSerializer):
+
+    duration_minutes = serializers.IntegerField()
+
+    def get_duration_minutes(self, instance):
+        if instance.stop is not None:
+            return (instance.stop - instance.start) // timedelta(minutes=1)
+
     class Meta:
         model = TaskLog
-        fields = ["id", "task", "logged_by", "duration_minutes"]
+        fields = ["id", "task", "logged_by", "start", "stop"]
 
 
 class TaskSerializer(serializers.ModelSerializer):
