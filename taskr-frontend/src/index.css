@@ -27,6 +27,7 @@ table.tracking-table tr th {
 
 table.tracking-table tr td {
   border-right-width: 1px;
+  text-align: center;
 }
 
 table.tracking-table tr th:first-child span {
