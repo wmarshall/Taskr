@@ -6,7 +6,7 @@ from .models import Customer, Project, Task, TaskLog
 
 class TaskLogSerializer(serializers.ModelSerializer):
 
-    duration_minutes = serializers.IntegerField()
+    duration_minutes = serializers.SerializerMethodField()
 
     def get_duration_minutes(self, instance):
         if instance.stop is not None:
@@ -14,7 +14,7 @@ class TaskLogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskLog
-        fields = ["id", "task", "logged_by", "start", "stop"]
+        fields = ["id", "task", "logged_by", "start", "stop", "duration_minutes"]
 
 
 class TaskSerializer(serializers.ModelSerializer):
