@@ -17,7 +17,7 @@ table.tracking-table tr th:first-child{
   width: 200px;
 }
 
-table.tracking-table tbody td{
+table.tracking-table tbody td.task-log {
   width: 20px;
 }
 

@@ -175,14 +175,14 @@ function CRUDForm({selected, model, onChange, onSubmit, errors, pending}){
 						}
 						</button>
 						{
-							hasSelected && (
-								<button
-									className={`button is-danger ${pending ? "is-loading" : null}`}
-									disabled={pending}
-								>
-								Delete
-								</button>
-							)
+							// hasSelected && (
+							// 	<button
+							// 		className={`button is-danger ${pending ? "is-loading" : null}`}
+							// 		disabled={pending}
+							// 	>
+							// 	Delete
+							// 	</button>
+							// )
 						}
 					</div>
 				</div>
