@@ -28,7 +28,7 @@ export function CRUD({endpoint, model}){
 				onChange={(e) => {
 					const {name, value} = e.target
 					selected[name] = value
-					setSelected(selected)
+					setSelected({...selected})
 				}}
 				setSelected={setSelected}
 				pending={pending}
@@ -146,7 +146,7 @@ function CRUDForm({selected, model, onChange, onSubmit, errors, pending}){
 									className={`input ${errors['name'] ? 'is-danger': ""}`}
 									type="text"
 									placeholder={label}
-									name="name"
+									name={key}
 									value={selected[key] || ""}
 									onChange={onChange}
 								/>
