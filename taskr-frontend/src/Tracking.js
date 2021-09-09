@@ -1,12 +1,33 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import {useState, useEffect} from 'react'
+import humanizeDuration from "humanize-duration"
 
 import {request} from './ajax'
 import {CustomerModel, CustomerEndpoint} from "./Customers"
 import {ProjectModel, ProjectEndpoint} from "./Projects"
 import {TaskModel, TaskEndpoint} from "./Tasks"
 import {TaskLogEndpoint} from "./TaskLogs"
+
+// cribbed from the official docs
+const shortEnglishHumanizer = humanizeDuration.humanizer({
+  language: "shortEn",
+  languages: {
+    shortEn: {
+      y: () => "y",
+      mo: () => "mo",
+      w: () => "w",
+      d: () => "d",
+      h: () => "h",
+      m: () => "m",
+      s: () => "s",
+      ms: () => "ms",
+    },
+  },
+  units: ["h", "m", "s"],
+  round: true,
+  delimiter: "",
+  spacer: ""
+});
+
 
 function Customer({customer, projects, tasks, taskLogs, createTaskLog, finalizeTaskLog}) {
 	return (
@@ -70,8 +91,20 @@ function Task({task, taskLogs, createTaskLog, finalizeTaskLog}) {
 				<span>{TaskModel.makeTitle(task)}</span>
 			</th>
 			<td><PunchClock task={task} pendingTaskLog={pendingTaskLog} createTaskLog={createTaskLog} finalizeTaskLog={finalizeTaskLog}/></td>
-			{completeTaskLogs.map((taskLog) => <td className="task-log"key={taskLog.id}>{taskLog.duration_minutes}</td>)}
+			{completeTaskLogs.map((taskLog) => <CompleteTaskLog key={taskLog.id} taskLog={taskLog}/>)}
 		</tr>
+	)
+}
+
+function CompleteTaskLog({taskLog}) {
+
+	// HACK: this is probably a mistake, and I should use a real parser
+	const startDate = new Date(taskLog.start)
+	const stopDate = new Date(taskLog.stop)
+	const elapsedMillis = stopDate.getTime() - startDate.getTime()
+
+	return (
+		<td className="task-log">{shortEnglishHumanizer(elapsedMillis)}</td>
 	)
 }
 
