@@ -1,4 +1,3 @@
-import "bulma/css/bulma.css"
 
 import {useState, useEffect} from 'react'
 
