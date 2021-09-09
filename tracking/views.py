@@ -48,7 +48,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 @api_view(["GET"])
 @permission_classes([permissions.AllowAny])
 @ensure_csrf_cookie
-def bootstrap(request):
+def bootstrap(_):
     return Response({"status": "success"}, status=status.HTTP_200_OK)
 
 
