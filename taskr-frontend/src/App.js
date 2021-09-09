@@ -14,6 +14,7 @@ import {Customers} from "./Customers"
 import {Projects} from "./Projects"
 import {Tasks} from "./Tasks"
 import {TaskLogs} from "./TaskLogs"
+import {Tracking} from "./Tracking"
 
 import {request} from './ajax'
 
@@ -78,6 +79,9 @@ function Content() {
         </Route>
         <Route path="/customers">
           <Customers/>
+        </Route>
+        <Route>
+          <Tracking/>
         </Route>
       </Switch>
     </div>

@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+table.tracking-table tr th:first-child{
+  width: 200px;
+}
+
+table.tracking-table tbody td{
+  width: 20px;
+}
+
+table.tracking-table tr th {
+  border-right-width: 1px;
+}
+
+table.tracking-table tr td {
+  border-right-width: 1px;
+}
+
+table.tracking-table tr th:first-child span {
+  margin-left: 5px;
+}
+
+table.tracking-table .project-row th:first-child{
+  /* Bulma stock is 12,  */
+  padding-left: calc(12px + 15px);
+}
+
+table.tracking-table .task-row th:first-child{
+  padding-left: calc(12px + 15px + 15px);
+}
