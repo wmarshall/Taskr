@@ -13,7 +13,8 @@ export const CustomerModel = {
 		{
 			key: "name",
 			label: "Name",
-			iconComponent: <FontAwesomeIcon icon={faBuilding} fixedWidth/>
+			iconComponent: <FontAwesomeIcon icon={faBuilding} fixedWidth/>,
+			writeable: true
 		}
 	]
 }

@@ -14,12 +14,14 @@ export const TaskModel = {
 		{
 			key: "description",
 			label: "Description",
-			iconComponent: <FontAwesomeIcon icon={faTasks}/>
+			iconComponent: <FontAwesomeIcon icon={faTasks}/>,
+			writeable: true
 		},
 		{
 			key: "project",
 			label: "Project",
-			iconComponent: <FontAwesomeIcon icon={faTag}/>
+			iconComponent: <FontAwesomeIcon icon={faTag}/>,
+			writeable: true
 		}
 	]
 }

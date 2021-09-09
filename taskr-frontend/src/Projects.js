@@ -12,12 +12,14 @@ export const ProjectModel = {
 		{
 			key: "name",
 			label: "Name",
-			iconComponent: <FontAwesomeIcon icon={faTag}/>
+			iconComponent: <FontAwesomeIcon icon={faTag}/>,
+			writeable: true
 		},
 		{
 			key: "customer",
 			label: "Customer",
-			iconComponent: <FontAwesomeIcon icon={faBuilding}/>
+			iconComponent: <FontAwesomeIcon icon={faBuilding}/>,
+			writeable: true
 		}
 	]
 }
