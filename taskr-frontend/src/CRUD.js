@@ -18,7 +18,7 @@ export function CRUD({endpoint, model}){
 			})
 			.finally(() => setPending(false))
 		}
-	}, [endpoint, instances.length])
+	}, [endpoint, instances])
 
 	return (
 		<>

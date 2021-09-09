@@ -24,10 +24,12 @@ export const TaskModel = {
 	]
 }
 
+export const TaskEndpoint = "/tracking/tasks/"
+
 export function Tasks(){
 
-	const endpoint = "/tracking/tasks/"
+	const endpoint = TaskEndpoint
 	const model = TaskModel
 
-	return <CRUD endpoint={endpoint} model={model} />
+	return <CRUD endpoint={endpoint} model={model}/>
 }

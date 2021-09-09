@@ -18,9 +18,11 @@ export const CustomerModel = {
 	]
 }
 
+export const CustomerEndpoint = "/tracking/customers/"
+
 export function Customers(){
 
-	const endpoint = "/tracking/customers/"
+	const endpoint = CustomerEndpoint
 	const model = CustomerModel
 
 	return <CRUD endpoint={endpoint} model={model} />

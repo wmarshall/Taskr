@@ -3,9 +3,10 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import {useState, useEffect} from 'react'
 
 import {request} from './ajax'
-import {CustomerModel} from "./Customers"
-import {ProjectModel} from "./Projects"
-import {TaskModel} from "./Tasks"
+import {CustomerModel, CustomerEndpoint} from "./Customers"
+import {ProjectModel, ProjectEndpoint} from "./Projects"
+import {TaskModel, TaskEndpoint} from "./Tasks"
+import {TaskLogEndpoint} from "./TaskLogs"
 
 function Customer({customer, projects, tasks, taskLogs}) {
 	return (
@@ -63,43 +64,88 @@ function Task({task, taskLogs}) {
 
 export function Tracking() {
 
-	const [customers, setCustomers] = useState([{"id": 1, "name": "FooCustomer"}])
-	const [projects, setProjects] = useState([{"id": 1, "name": "FooProject", "customer": 1}])
-	const [tasks, setTasks] = useState([{"id": 1, "description": "FooTask", "project": 1}])
-	const [taskLogs, setTaskLogs] = useState([
-			{"id": 1, "task": 1, "logged_by": 1, "duration_minutes": 30},
-			{"id": 1, "task": 1, "logged_by": 1, "duration_minutes": 30},
-			{"id": 1, "task": 1, "logged_by": 1, "duration_minutes": 30},
-			{"id": 1, "task": 1, "logged_by": 1, "duration_minutes": 30},
-		])
+	const [pending, setPending] = useState(false)
+	const [customers, setCustomers] = useState([])
+	const [projects, setProjects] = useState([])
+	const [tasks, setTasks] = useState([])
+	const [taskLogs, setTaskLogs] = useState([])
+
+
+	// This is pretty gross, and duplicates code from CRUDS.js
+	useEffect(() => {
+		if (!pending) {
+			const pendingPromises = []
+			if (customers.length === 0) {
+				pendingPromises.push(
+					request(CustomerEndpoint, null, "GET")
+					.then((customersResponse) => {
+						return setCustomers(customersResponse)
+					})
+				)
+			}
+			if (projects.length === 0) {
+				pendingPromises.push(
+					request(ProjectEndpoint, null, "GET")
+					.then((projectResponse) => {
+						return setProjects(projectResponse)
+					})
+				)
+			}
+			if (tasks.length === 0) {
+				pendingPromises.push(
+					request(TaskEndpoint, null, "GET")
+					.then((tasksResponse) => {
+						return setTasks(tasksResponse)
+					})
+				)
+			}
+			if (taskLogs.length === 0) {
+				pendingPromises.push(
+					request(TaskLogEndpoint, null, "GET")
+					.then((taskLogResponse) => {
+						return setTaskLogs(taskLogResponse)
+					})
+				)
+			}
+			if (pendingPromises.length > 0) {
+				setPending(true)
+				Promise.all(pendingPromises).finally(() => setPending(false))
+			}
+
+		}
+
+	}, [pending, customers, projects, tasks, taskLogs])
 
 	return (
-		<table className="table tracking-table">
-			<thead>
-				<tr>
-					<th scope="col">
-						<nav class="breadcrumb">
-							<ul>
-								<li>Customer</li>
-								<li>Project</li>
-								<li>Task</li>
-							</ul>
-						</nav>
-					</th>
-					<th colspan={taskLogs.length} scope="col">Task Logs</th>
-				</tr>
-			</thead>
-			<tbody>
-				{customers.map((customer) => (
-					<Customer
-						key={customer.id}
-						customer={customer}
-						projects={projects.filter((project) => project.customer === customer.id)}
-						tasks={tasks}
-						taskLogs={taskLogs}
-					/>
-				))}
-			</tbody>
-		</table>
+		<div className="block">
+			<h2 className="title">Log Time</h2>
+			<table className="table tracking-table">
+				<thead>
+					<tr>
+						<th scope="col">
+							<nav className="breadcrumb">
+								<ul>
+									<li>Customer</li>
+									<li>Project</li>
+									<li>Task</li>
+								</ul>
+							</nav>
+						</th>
+						<th colSpan={taskLogs.length} scope="col">Task Logs</th>
+					</tr>
+				</thead>
+				<tbody>
+					{customers.map((customer) => (
+						<Customer
+							key={customer.id}
+							customer={customer}
+							projects={projects.filter((project) => project.customer === customer.id)}
+							tasks={tasks}
+							taskLogs={taskLogs}
+						/>
+					))}
+				</tbody>
+			</table>
+		</div>
 	)
 }
